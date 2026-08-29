@@ -19,13 +19,14 @@ A Substack-style coffee platform: measured recipes, an editorial journal, a guid
 - 8–10 journal articles across the three pillars, each with citations.
 - Generated hero and article imagery in the direction's warm photographic style.
 
-## Backend (Lovable Cloud)
+## Data layer (no hosted backend yet — bring your own later)
 
-- `recipes` — premade catalog, public read.
-- `articles` — journal content with a citations field, public read.
-- `submissions` — community recipes and brew journals, with a `status` field (pending/approved). Public read of approved rows only; anyone can insert.
-- Submissions are validated with Zod on both client and server before insert.
-- No login required to submit in this phase; a moderation gate keeps the public feed clean.
+No Lovable Cloud or external database in this phase, so the backend can be self-hosted and connected later.
+
+- `recipes` and `articles` live as structured JSON/TS data files in the repo (`src/data/`), typed with a shared schema.
+- Community `submissions` go through a single `createServerFn` with Zod validation. For now it persists to the project's own data store (simple JSON file in dev) — the function is the only place that touches storage.
+- All reads/writes are funneled through one data-access module (`src/lib/data.ts`), so swapping in your own backend later means replacing that one module — no page or component changes needed.
+- When you're ready to connect your backend, tell me the API shape (REST endpoints, a database, anything) and I'll wire it into that module.
 
 ## Design system
 

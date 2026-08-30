@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RecipesIndexRouteImport } from './routes/recipes.index'
+import { Route as RecipesSlugRouteImport } from './routes/recipes.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +23,39 @@ const RecipesIndexRoute = RecipesIndexRouteImport.update({
   path: '/recipes/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecipesSlugRoute = RecipesSlugRouteImport.update({
+  id: '/recipes/$slug',
+  path: '/recipes/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/recipes/$slug': typeof RecipesSlugRoute
   '/recipes/': typeof RecipesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/recipes/$slug': typeof RecipesSlugRoute
   '/recipes': typeof RecipesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/recipes/$slug': typeof RecipesSlugRoute
   '/recipes/': typeof RecipesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/recipes/'
+  fullPaths: '/' | '/recipes/$slug' | '/recipes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/recipes'
-  id: '__root__' | '/' | '/recipes/'
+  to: '/' | '/recipes/$slug' | '/recipes'
+  id: '__root__' | '/' | '/recipes/$slug' | '/recipes/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  RecipesSlugRoute: typeof RecipesSlugRoute
   RecipesIndexRoute: typeof RecipesIndexRoute
 }
 
@@ -65,11 +75,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RecipesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recipes/$slug': {
+      id: '/recipes/$slug'
+      path: '/recipes/$slug'
+      fullPath: '/recipes/$slug'
+      preLoaderRoute: typeof RecipesSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  RecipesSlugRoute: RecipesSlugRoute,
   RecipesIndexRoute: RecipesIndexRoute,
 }
 export const routeTree = rootRouteImport

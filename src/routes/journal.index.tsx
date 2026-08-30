@@ -5,7 +5,7 @@ import { articles, type ArticleCategory } from "@/lib/data";
 
 const CATEGORIES: ArticleCategory[] = ["History", "Brewing Science", "Regions & Farms"];
 
-export const Route = createFileRoute("/journal")({
+export const Route = createFileRoute("/journal/")({
   head: () => ({
     meta: [
       { title: "Journal — Atlas Café" },

@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BuilderRouteImport } from './routes/builder'
 import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as RecipesIndexRouteImport } from './routes/recipes.index'
@@ -18,6 +19,11 @@ import { Route as RecipesSlugRouteImport } from './routes/recipes.$slug'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BuilderRoute = BuilderRouteImport.update({
+  id: '/builder',
+  path: '/builder',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JournalIndexRoute = JournalIndexRouteImport.update({
@@ -43,6 +49,7 @@ const RecipesSlugRoute = RecipesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/builder': typeof BuilderRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/recipes/$slug': typeof RecipesSlugRoute
   '/journal/': typeof JournalIndexRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/builder': typeof BuilderRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/recipes/$slug': typeof RecipesSlugRoute
   '/journal': typeof JournalIndexRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/builder': typeof BuilderRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/recipes/$slug': typeof RecipesSlugRoute
   '/journal/': typeof JournalIndexRoute
@@ -66,12 +75,24 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/journal/$slug' | '/recipes/$slug' | '/journal/' | '/recipes/'
+    | '/'
+    | '/builder'
+    | '/journal/$slug'
+    | '/recipes/$slug'
+    | '/journal/'
+    | '/recipes/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/journal/$slug' | '/recipes/$slug' | '/journal' | '/recipes'
+  to:
+    | '/'
+    | '/builder'
+    | '/journal/$slug'
+    | '/recipes/$slug'
+    | '/journal'
+    | '/recipes'
   id:
     | '__root__'
     | '/'
+    | '/builder'
     | '/journal/$slug'
     | '/recipes/$slug'
     | '/journal/'
@@ -80,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BuilderRoute: typeof BuilderRoute
   JournalSlugRoute: typeof JournalSlugRoute
   RecipesSlugRoute: typeof RecipesSlugRoute
   JournalIndexRoute: typeof JournalIndexRoute
@@ -93,6 +115,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/builder': {
+      id: '/builder'
+      path: '/builder'
+      fullPath: '/builder'
+      preLoaderRoute: typeof BuilderRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/journal/': {
@@ -128,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BuilderRoute: BuilderRoute,
   JournalSlugRoute: JournalSlugRoute,
   RecipesSlugRoute: RecipesSlugRoute,
   JournalIndexRoute: JournalIndexRoute,

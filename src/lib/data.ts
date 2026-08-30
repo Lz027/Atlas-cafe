@@ -1,11 +1,17 @@
-import { articles, getArticle, recipes, type Article, type Method, type Recipe, type Strength } from "@/data/recipes";
+import { articles, getArticle, type Article, type ArticleCategory, type Citation } from "@/data/articles";
+import {
+  recipes,
+  getRecipe,
+  METHODS,
+  STRENGTHS,
+  FLAVOR_NOTES,
+  type Method,
+  type Recipe,
+  type Strength,
+} from "@/data/recipes";
 
-export { articles, getArticle, recipes };
-export type { Article, Method, Recipe, Strength };
-
-export function getRecipe(slug: string): Recipe | undefined {
-  return recipes.find((r) => r.slug === slug);
-}
+export { articles, getArticle, recipes, getRecipe, METHODS, STRENGTHS, FLAVOR_NOTES };
+export type { Article, ArticleCategory, Citation, Method, Recipe, Strength };
 
 export interface BuilderPrefs {
   coffeeType: string;
@@ -25,10 +31,8 @@ export function suggestRecipe(prefs: BuilderPrefs): Recipe | undefined {
   );
   const candidates = typed.length > 0 ? typed : pool;
   const wanted = new Set(prefs.flavors.map((f) => f.toLowerCase()));
-  return candidates
-    .map((r) => ({
-      r,
-      score: r.flavors.filter((f) => wanted.has(f.toLowerCase())).length,
-    }))
-    .sort((a, b) => b.score - a.score)[0].r;
+  const ranked = candidates
+    .map((r) => ({ r, score: r.flavors.filter((f) => wanted.has(f.toLowerCase())).length }))
+    .sort((a, b) => b.score - a.score);
+  return ranked[0]?.r;
 }

@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { Page, Eyebrow } from "@/components/site-chrome";
 import { recipes, METHODS, STRENGTHS, FLAVOR_NOTES, type Method, type Strength } from "@/lib/data";
 
-export const Route = createFileRoute("/recipes")({
+export const Route = createFileRoute("/recipes/")({
   head: () => ({
     meta: [
       { title: "Recipes — Atlas Café" },

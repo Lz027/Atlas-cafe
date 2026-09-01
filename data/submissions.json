@@ -1,0 +1,58 @@
+[
+  {
+    "id": "7c9a1f0e-3d21-4a51-9f10-2b8c4d5e6a01",
+    "kind": "recipe",
+    "title": "Sunday Chemex, half-batch",
+    "authorName": "Mara Ellison",
+    "method": "Chemex",
+    "dose": 32,
+    "water": 520,
+    "tempC": 94,
+    "timeLabel": "4:30",
+    "flavors": ["Citrus", "Floral"],
+    "notes": "Coarse grind, 60g bloom for 45 seconds, then three even pours. Washed Ethiopian keeps it bright without going thin.",
+    "status": "approved",
+    "createdAt": "2026-08-21T08:12:00.000Z"
+  },
+  {
+    "id": "b2d51c34-88ef-4d70-a0c2-1f77e3aa9d42",
+    "kind": "journal",
+    "title": "Two weeks with a hand grinder",
+    "authorName": "Theo Vance",
+    "method": "AeroPress",
+    "flavors": ["Nutty", "Chocolate"],
+    "notes": "Gave up the electric burr for a fortnight. The ritual slowed me down and the cups got noticeably sweeter — mostly because I stopped rushing the bloom.",
+    "status": "approved",
+    "createdAt": "2026-08-18T17:40:00.000Z"
+  },
+  {
+    "id": "df0a7b19-5c62-4e83-b711-90a4c1e2f533",
+    "kind": "recipe",
+    "title": "Cold brew for humid mornings",
+    "authorName": "Ines Okafor",
+    "method": "Cold Brew",
+    "dose": 100,
+    "water": 1000,
+    "tempC": 20,
+    "timeLabel": "16 h",
+    "flavors": ["Chocolate", "Caramel"],
+    "notes": "1:10 concentrate, steeped at room temperature then chilled. Dilute 1:2 with water, or 1:1 with milk over ice.",
+    "status": "approved",
+    "createdAt": "2026-08-11T06:05:00.000Z"
+  },
+  {
+    "id": "4a1e8f27-2b90-4c15-8d63-77ac5b0e1194",
+    "kind": "recipe",
+    "title": "Moka pot, no bitterness",
+    "authorName": "Luca Ferrari",
+    "method": "Moka Pot",
+    "dose": 18,
+    "water": 160,
+    "tempC": 90,
+    "timeLabel": "3:00",
+    "flavors": ["Chocolate", "Spiced"],
+    "notes": "Start with pre-heated water so the grounds never scorch. Pull it off the heat the moment the stream turns pale.",
+    "status": "approved",
+    "createdAt": "2026-08-03T09:25:00.000Z"
+  }
+]

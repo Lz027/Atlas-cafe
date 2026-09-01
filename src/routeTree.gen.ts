@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BuilderRouteImport } from './routes/builder'
+import { Route as CommunityRouteImport } from './routes/community'
+import { Route as SubmitRouteImport } from './routes/submit'
 import { Route as JournalIndexRouteImport } from './routes/journal.index'
 import { Route as JournalSlugRouteImport } from './routes/journal.$slug'
 import { Route as RecipesIndexRouteImport } from './routes/recipes.index'
@@ -24,6 +26,16 @@ const IndexRoute = IndexRouteImport.update({
 const BuilderRoute = BuilderRouteImport.update({
   id: '/builder',
   path: '/builder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CommunityRoute = CommunityRouteImport.update({
+  id: '/community',
+  path: '/community',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SubmitRoute = SubmitRouteImport.update({
+  id: '/submit',
+  path: '/submit',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JournalIndexRoute = JournalIndexRouteImport.update({
@@ -50,6 +62,8 @@ const RecipesSlugRoute = RecipesSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/builder': typeof BuilderRoute
+  '/community': typeof CommunityRoute
+  '/submit': typeof SubmitRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/recipes/$slug': typeof RecipesSlugRoute
   '/journal/': typeof JournalIndexRoute
@@ -58,6 +72,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/builder': typeof BuilderRoute
+  '/community': typeof CommunityRoute
+  '/submit': typeof SubmitRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/recipes/$slug': typeof RecipesSlugRoute
   '/journal': typeof JournalIndexRoute
@@ -67,6 +83,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/builder': typeof BuilderRoute
+  '/community': typeof CommunityRoute
+  '/submit': typeof SubmitRoute
   '/journal/$slug': typeof JournalSlugRoute
   '/recipes/$slug': typeof RecipesSlugRoute
   '/journal/': typeof JournalIndexRoute
@@ -77,6 +95,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/builder'
+    | '/community'
+    | '/submit'
     | '/journal/$slug'
     | '/recipes/$slug'
     | '/journal/'
@@ -85,6 +105,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/builder'
+    | '/community'
+    | '/submit'
     | '/journal/$slug'
     | '/recipes/$slug'
     | '/journal'
@@ -93,6 +115,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/builder'
+    | '/community'
+    | '/submit'
     | '/journal/$slug'
     | '/recipes/$slug'
     | '/journal/'
@@ -102,6 +126,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BuilderRoute: typeof BuilderRoute
+  CommunityRoute: typeof CommunityRoute
+  SubmitRoute: typeof SubmitRoute
   JournalSlugRoute: typeof JournalSlugRoute
   RecipesSlugRoute: typeof RecipesSlugRoute
   JournalIndexRoute: typeof JournalIndexRoute
@@ -122,6 +148,20 @@ declare module '@tanstack/react-router' {
       path: '/builder'
       fullPath: '/builder'
       preLoaderRoute: typeof BuilderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/community': {
+      id: '/community'
+      path: '/community'
+      fullPath: '/community'
+      preLoaderRoute: typeof CommunityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/submit': {
+      id: '/submit'
+      path: '/submit'
+      fullPath: '/submit'
+      preLoaderRoute: typeof SubmitRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/journal/': {
@@ -158,6 +198,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BuilderRoute: BuilderRoute,
+  CommunityRoute: CommunityRoute,
+  SubmitRoute: SubmitRoute,
   JournalSlugRoute: JournalSlugRoute,
   RecipesSlugRoute: RecipesSlugRoute,
   JournalIndexRoute: JournalIndexRoute,

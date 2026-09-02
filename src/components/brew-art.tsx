@@ -151,8 +151,8 @@ export function BrewArt({ method, seed = "", className = "" }: Props) {
           return (
             <circle
               key={i}
-              cx={60 + Math.cos(a) * 52}
-              cy={60 + Math.sin(a) * 52}
+              cx={Math.round((60 + Math.cos(a) * 52) * 100) / 100}
+              cy={Math.round((60 + Math.sin(a) * 52) * 100) / 100}
               r={1.6 + (i % 2)}
               fill="currentColor"
             />

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Page, Eyebrow } from "@/components/site-chrome";
 import { METHODS, FLAVOR_NOTES } from "@/lib/data";
 import { submitBrew } from "@/lib/submissions.functions";
+import { BrewArt } from "@/components/brew-art";
 
 export const Route = createFileRoute("/submit")({
   head: () => ({
@@ -42,6 +43,9 @@ function SubmitPage() {
   const send = useServerFn(submitBrew);
   const [kind, setKind] = useState<"recipe" | "journal">("recipe");
   const [flavors, setFlavors] = useState<string[]>([]);
+  const [previewMethod, setPreviewMethod] = useState<string>("V60");
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageError, setImageError] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
 
@@ -77,11 +81,16 @@ function SubmitPage() {
           timeLabel: str("timeLabel"),
           flavors,
           notes: str("notes"),
+          imageUrl: str("imageUrl"),
+          imageAlt: str("imageAlt"),
         },
       });
       setStatus("done");
       form.reset();
       setFlavors([]);
+      setImageUrl("");
+      setImageError(false);
+      setPreviewMethod("V60");
     } catch (err) {
       setStatus("error");
       setMessage(
@@ -138,7 +147,13 @@ function SubmitPage() {
 
         <label className="block">
           <Label>Method</Label>
-          <select name="method" required defaultValue="V60" className={fieldClass}>
+          <select
+            name="method"
+            required
+            value={previewMethod}
+            onChange={(e) => setPreviewMethod(e.target.value)}
+            className={fieldClass}
+          >
             {METHODS.map((m) => (
               <option key={m} value={m}>
                 {m}
@@ -219,7 +234,10 @@ function SubmitPage() {
                 inputMode="url"
                 maxLength={500}
                 value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
+                onChange={(e) => {
+                  setImageUrl(e.target.value);
+                  setImageError(false);
+                }}
                 className={fieldClass}
                 placeholder="https://…/my-pour-over.jpg"
               />

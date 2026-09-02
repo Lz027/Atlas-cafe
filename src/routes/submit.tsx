@@ -202,6 +202,57 @@ function SubmitPage() {
           />
         </label>
 
+        <fieldset className="rounded-xl border border-border p-5">
+          <legend className="px-2 font-mono text-[10px] uppercase tracking-[0.16em] text-clay">
+            Photo (optional)
+          </legend>
+          <p className="text-sm text-muted-foreground">
+            Add a link to your own photo of the brew. Leave it blank and we&rsquo;ll draw a method
+            illustration for you instead.
+          </p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <label className="block">
+              <Label>Image URL (https)</Label>
+              <input
+                name="imageUrl"
+                type="url"
+                inputMode="url"
+                maxLength={500}
+                value={imageUrl}
+                onChange={(e) => setImageUrl(e.target.value)}
+                className={fieldClass}
+                placeholder="https://…/my-pour-over.jpg"
+              />
+            </label>
+            <label className="block">
+              <Label>Image description</Label>
+              <input
+                name="imageAlt"
+                maxLength={140}
+                className={fieldClass}
+                placeholder="Chemex mid-pour on a wooden counter"
+              />
+            </label>
+          </div>
+          <div className="mt-4 flex h-40 items-center justify-center overflow-hidden rounded-lg border border-border bg-secondary">
+            {imageUrl.trim().startsWith("https://") && !imageError ? (
+              <img
+                src={imageUrl.trim()}
+                alt="Preview of your submitted brew photo"
+                onError={() => setImageError(true)}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <BrewArt method={previewMethod} seed={previewMethod} className="h-28 w-28" />
+            )}
+          </div>
+          {imageError && (
+            <p className="mt-2 text-sm text-destructive">
+              That image link didn&rsquo;t load — check the URL or leave it blank.
+            </p>
+          )}
+        </fieldset>
+
         <div className="flex flex-wrap items-center gap-4">
           <button
             type="submit"

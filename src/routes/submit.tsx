@@ -50,7 +50,9 @@ function SubmitPage() {
   const [message, setMessage] = useState("");
 
   function toggleFlavor(f: string) {
-    setFlavors((prev) => (prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f].slice(0, 8)));
+    setFlavors((prev) =>
+      prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f].slice(0, 8),
+    );
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -137,11 +139,24 @@ function SubmitPage() {
         <div className="grid gap-5 sm:grid-cols-2">
           <label className="block">
             <Label>Title</Label>
-            <input name="title" required minLength={2} maxLength={120} className={fieldClass} placeholder="Sunday Chemex, half-batch" />
+            <input
+              name="title"
+              required
+              minLength={2}
+              maxLength={120}
+              className={fieldClass}
+              placeholder="Sunday Chemex, half-batch"
+            />
           </label>
           <label className="block">
             <Label>Your name</Label>
-            <input name="authorName" required maxLength={80} className={fieldClass} placeholder="Mara Ellison" />
+            <input
+              name="authorName"
+              required
+              maxLength={80}
+              className={fieldClass}
+              placeholder="Mara Ellison"
+            />
           </label>
         </div>
 
@@ -169,15 +184,37 @@ function SubmitPage() {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <label className="block">
               <Label>Dose (g)</Label>
-              <input name="dose" type="number" step="0.1" min="0" className={fieldClass} placeholder="18" />
+              <input
+                name="dose"
+                type="number"
+                step="0.1"
+                min="0"
+                className={fieldClass}
+                placeholder="18"
+              />
             </label>
             <label className="block">
               <Label>Water (g)</Label>
-              <input name="water" type="number" step="1" min="0" className={fieldClass} placeholder="300" />
+              <input
+                name="water"
+                type="number"
+                step="1"
+                min="0"
+                className={fieldClass}
+                placeholder="300"
+              />
             </label>
             <label className="block">
               <Label>Temp (°C)</Label>
-              <input name="tempC" type="number" step="1" min="0" max="100" className={fieldClass} placeholder="94" />
+              <input
+                name="tempC"
+                type="number"
+                step="1"
+                min="0"
+                max="100"
+                className={fieldClass}
+                placeholder="94"
+              />
             </label>
             <label className="block">
               <Label>Time</Label>
@@ -284,9 +321,7 @@ function SubmitPage() {
               Received — pending review.
             </p>
           )}
-          {status === "error" && (
-            <p className="text-sm text-destructive">{message}</p>
-          )}
+          {status === "error" && <p className="text-sm text-destructive">{message}</p>}
         </div>
       </form>
     </Page>

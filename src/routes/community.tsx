@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Page, Eyebrow } from "@/components/site-chrome";
+import { BrewArt } from "@/components/brew-art";
 import { listApprovedSubmissions, type Submission } from "@/lib/submissions.functions";
 
 export const Route = createFileRoute("/community")({
@@ -45,46 +46,62 @@ function SubmissionCard({ s }: { s: Submission }) {
   if (s.timeLabel) specs.push(["Time", s.timeLabel]);
 
   return (
-    <article className="rounded-xl border border-border bg-card p-6 transition-colors hover:border-clay/50">
-      <div className="flex flex-wrap items-center gap-2">
-        <span className="rounded-full border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.16em] text-clay">
-          {s.kind === "recipe" ? "Recipe" : "Brew journal"}
-        </span>
-        <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
-          {s.method}
-        </span>
+    <article className="overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-clay/50">
+      {s.imageUrl ? (
+        <img
+          src={s.imageUrl}
+          alt={s.imageAlt || `${s.title} — brew photo by ${s.authorName}`}
+          loading="lazy"
+          className="h-48 w-full border-b border-border object-cover"
+        />
+      ) : (
+        <div className="flex h-48 items-center justify-center border-b border-border bg-secondary">
+          <BrewArt method={s.method} seed={s.id} className="h-32 w-32" />
+        </div>
+      )}
+      <div className="p-6">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="rounded-full border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.16em] text-clay">
+            {s.kind === "recipe" ? "Recipe" : "Brew journal"}
+          </span>
+          <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+            {s.method}
+          </span>
+        </div>
+        <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground">
+          {s.title}
+        </h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          by {s.authorName} ·{" "}
+          {new Date(s.createdAt).toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          })}
+        </p>
+        {specs.length > 0 && (
+          <div className="mt-5 grid grid-cols-2 gap-4 border-y border-border py-4 sm:grid-cols-4">
+            {specs.map(([label, value]) => (
+              <Spec key={label} label={label} value={value} />
+            ))}
+          </div>
+        )}
+        {s.notes && (
+          <p className="mt-4 text-[15px] leading-relaxed text-foreground/90">{s.notes}</p>
+        )}
+        {s.flavors.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {s.flavors.map((f) => (
+              <span
+                key={f}
+                className="rounded-full bg-secondary px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-secondary-foreground"
+              >
+                {f}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
-      <h2 className="mt-3 font-serif text-2xl font-semibold tracking-tight text-foreground">
-        {s.title}
-      </h2>
-      <p className="mt-1 text-sm text-muted-foreground">
-        by {s.authorName} ·{" "}
-        {new Date(s.createdAt).toLocaleDateString("en-GB", {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-        })}
-      </p>
-      {specs.length > 0 && (
-        <div className="mt-5 grid grid-cols-2 gap-4 border-y border-border py-4 sm:grid-cols-4">
-          {specs.map(([label, value]) => (
-            <Spec key={label} label={label} value={value} />
-          ))}
-        </div>
-      )}
-      {s.notes && <p className="mt-4 text-[15px] leading-relaxed text-foreground/90">{s.notes}</p>}
-      {s.flavors.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {s.flavors.map((f) => (
-            <span
-              key={f}
-              className="rounded-full bg-secondary px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-secondary-foreground"
-            >
-              {f}
-            </span>
-          ))}
-        </div>
-      )}
     </article>
   );
 }
@@ -121,7 +138,9 @@ function CommunityPage() {
             Loading brews…
           </p>
         )}
-        {data?.map((s) => <SubmissionCard key={s.id} s={s} />)}
+        {data?.map((s) => (
+          <SubmissionCard key={s.id} s={s} />
+        ))}
         {data && data.length === 0 && (
           <p className="text-muted-foreground">
             No approved submissions yet — yours could be the first.

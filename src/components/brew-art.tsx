@@ -1,7 +1,7 @@
 /**
  * Inline vector art for brew methods — no bitmap images, no repetition of
  * the same photo across the site. Each method gets its own line drawing,
- * and a per-recipe seed shifts the accent details so no two cards match.
+ * and a per-recipe seed picks a distinct decorative motif so no two cards match.
  */
 
 type Props = {
@@ -15,6 +15,19 @@ function hash(s: string): number {
   for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
   return Math.abs(h);
 }
+
+/** Precomputed integer dot positions on a r=52 ring (8 angles) — no float trig,
+ *  so SSR and client markup always match. */
+const RING: Array<[number, number]> = [
+  [112, 60],
+  [97, 97],
+  [60, 112],
+  [23, 97],
+  [8, 60],
+  [23, 23],
+  [60, 8],
+  [97, 23],
+];
 
 function Drawing({ method }: { method: string }) {
   const s = {
@@ -131,10 +144,83 @@ function Drawing({ method }: { method: string }) {
   }
 }
 
+/** Six distinct decorative motifs, chosen per recipe seed. */
+function Motif({ variant, h }: { variant: number; h: number }) {
+  const start = h % RING.length;
+  const common = { stroke: "currentColor", fill: "none", strokeWidth: 1 };
+  switch (variant) {
+    case 0:
+      // Sunburst rays
+      return (
+        <g {...common}>
+          {RING.map(([x, y], i) => (
+            <line key={i} x1={60 + (x - 60) * 0.82} y1={60 + (y - 60) * 0.82} x2={x} y2={y} />
+          ))}
+          <circle cx="60" cy="60" r="40" strokeDasharray="2 6" />
+        </g>
+      );
+    case 1:
+      // Concentric arcs (crop-circle top view)
+      return (
+        <g {...common}>
+          <circle cx="60" cy="60" r="50" strokeDasharray="3 7" />
+          <circle cx="60" cy="60" r="38" />
+          <circle cx="60" cy="60" r="26" strokeDasharray="1 5" />
+          <circle cx={RING[start][0]} cy={RING[start][1]} r="2" fill="currentColor" />
+        </g>
+      );
+    case 2:
+      // Corner crosshatch field
+      return (
+        <g {...common}>
+          {[0, 1, 2, 3, 4].map((i) => (
+            <line key={i} x1={8 + i * 8} y1="112" x2="8" y2={112 - i * 8} />
+          ))}
+          {[0, 1, 2, 3, 4].map((i) => (
+            <line key={`b${i}`} x1={112 - i * 8} y1="8" x2="112" y2={8 + i * 8} />
+          ))}
+          <circle cx="60" cy="60" r="46" strokeDasharray="4 8" transform={`rotate(${(h % 24) - 12} 60 60)`} />
+        </g>
+      );
+    case 3:
+      // Orbiting bean dots
+      return (
+        <g {...common}>
+          <circle cx="60" cy="60" r="46" strokeDasharray="3 7" transform={`rotate(${(h % 24) - 12} 60 60)`} />
+          {Array.from({ length: 3 + (h % 4) }).map((_, i) => {
+            const [x, y] = RING[(start + Math.floor((i * 8) / (3 + (h % 4)))) % 8];
+            return <circle key={i} cx={x} cy={y} r={i % 2 === 0 ? 2.4 : 1.6} fill="currentColor" />;
+          })}
+        </g>
+      );
+    case 4:
+      // Steam plumes + base ticks
+      return (
+        <g {...common}>
+          <path d="M40 100c-4-6 4-10 0-16" />
+          <path d="M80 100c4-6-4-10 0-16" />
+          <circle cx="60" cy="60" r="50" strokeDasharray="1 9" transform={`rotate(${h % 45} 60 60)`} />
+          <line x1="20" y1="106" x2="100" y2="106" strokeDasharray="2 5" />
+        </g>
+      );
+    default:
+      // Coffee-cherry scatter
+      return (
+        <g {...common}>
+          <circle cx="60" cy="60" r="44" strokeDasharray="2 7" />
+          {[0, 2, 4, 6].map((k) => {
+            const [x, y] = RING[(start + k) % 8];
+            return <circle key={k} cx={x} cy={y} r="2" fill="currentColor" />;
+          })}
+          <path d="M60 10v-0.01M60 110v-0.01M10 60h-0.01M110 60h-0.01" strokeWidth="2" />
+        </g>
+      );
+  }
+}
+
 export function BrewArt({ method, seed = "", className = "" }: Props) {
   const h = hash(`${method}:${seed}`);
-  const rot = (h % 24) - 12;
-  const dots = 3 + (h % 4);
+  const variant = h % 6;
 
   return (
     <svg
@@ -144,20 +230,8 @@ export function BrewArt({ method, seed = "", className = "" }: Props) {
       className={className}
       preserveAspectRatio="xMidYMid meet"
     >
-      <g className="text-clay/25" stroke="currentColor" fill="none" strokeWidth="1">
-        <circle cx="60" cy="60" r="46" transform={`rotate(${rot} 60 60)`} strokeDasharray="3 7" />
-        {Array.from({ length: dots }).map((_, i) => {
-          const a = ((h % 360) + (i * 360) / dots) * (Math.PI / 180);
-          return (
-            <circle
-              key={i}
-              cx={Math.round((60 + Math.cos(a) * 52) * 100) / 100}
-              cy={Math.round((60 + Math.sin(a) * 52) * 100) / 100}
-              r={1.6 + (i % 2)}
-              fill="currentColor"
-            />
-          );
-        })}
+      <g className="text-clay/25">
+        <Motif variant={variant} h={h} />
       </g>
       <g className="text-espresso/70">
         <Drawing method={method} />

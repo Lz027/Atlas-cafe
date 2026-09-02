@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Page, Eyebrow } from "@/components/site-chrome";
 import { getRecipe } from "@/lib/data";
+import { BrewArt } from "@/components/brew-art";
 
 export const Route = createFileRoute("/recipes/$slug")({
   loader: ({ params }) => {
@@ -94,6 +95,9 @@ function RecipeDetail() {
         </div>
 
         <aside className="h-fit rounded-xl border border-border bg-secondary p-6">
+          <div className="mb-6 flex items-center justify-center rounded-lg border border-border/60 bg-background/60 py-4">
+            <BrewArt method={r.method} seed={r.slug} className="h-40 w-40" />
+          </div>
           <Eyebrow>Spec sheet</Eyebrow>
           <dl className="mt-5 grid grid-cols-2 gap-5">
             <Spec label="Dose" value={`${r.dose} g`} />

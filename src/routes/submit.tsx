@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Page, Eyebrow } from "@/components/site-chrome";
 import { METHODS, FLAVOR_NOTES } from "@/lib/data";
 import { submitBrew } from "@/lib/submissions.functions";
+import { BrewArt } from "@/components/brew-art";
 
 export const Route = createFileRoute("/submit")({
   head: () => ({
@@ -42,11 +43,16 @@ function SubmitPage() {
   const send = useServerFn(submitBrew);
   const [kind, setKind] = useState<"recipe" | "journal">("recipe");
   const [flavors, setFlavors] = useState<string[]>([]);
+  const [previewMethod, setPreviewMethod] = useState<string>("V60");
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageError, setImageError] = useState(false);
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [message, setMessage] = useState("");
 
   function toggleFlavor(f: string) {
-    setFlavors((prev) => (prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f].slice(0, 8)));
+    setFlavors((prev) =>
+      prev.includes(f) ? prev.filter((x) => x !== f) : [...prev, f].slice(0, 8),
+    );
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -77,11 +83,16 @@ function SubmitPage() {
           timeLabel: str("timeLabel"),
           flavors,
           notes: str("notes"),
+          imageUrl: str("imageUrl"),
+          imageAlt: str("imageAlt"),
         },
       });
       setStatus("done");
       form.reset();
       setFlavors([]);
+      setImageUrl("");
+      setImageError(false);
+      setPreviewMethod("V60");
     } catch (err) {
       setStatus("error");
       setMessage(
@@ -128,17 +139,36 @@ function SubmitPage() {
         <div className="grid gap-5 sm:grid-cols-2">
           <label className="block">
             <Label>Title</Label>
-            <input name="title" required minLength={2} maxLength={120} className={fieldClass} placeholder="Sunday Chemex, half-batch" />
+            <input
+              name="title"
+              required
+              minLength={2}
+              maxLength={120}
+              className={fieldClass}
+              placeholder="Sunday Chemex, half-batch"
+            />
           </label>
           <label className="block">
             <Label>Your name</Label>
-            <input name="authorName" required maxLength={80} className={fieldClass} placeholder="Mara Ellison" />
+            <input
+              name="authorName"
+              required
+              maxLength={80}
+              className={fieldClass}
+              placeholder="Mara Ellison"
+            />
           </label>
         </div>
 
         <label className="block">
           <Label>Method</Label>
-          <select name="method" required defaultValue="V60" className={fieldClass}>
+          <select
+            name="method"
+            required
+            value={previewMethod}
+            onChange={(e) => setPreviewMethod(e.target.value)}
+            className={fieldClass}
+          >
             {METHODS.map((m) => (
               <option key={m} value={m}>
                 {m}
@@ -154,15 +184,37 @@ function SubmitPage() {
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <label className="block">
               <Label>Dose (g)</Label>
-              <input name="dose" type="number" step="0.1" min="0" className={fieldClass} placeholder="18" />
+              <input
+                name="dose"
+                type="number"
+                step="0.1"
+                min="0"
+                className={fieldClass}
+                placeholder="18"
+              />
             </label>
             <label className="block">
               <Label>Water (g)</Label>
-              <input name="water" type="number" step="1" min="0" className={fieldClass} placeholder="300" />
+              <input
+                name="water"
+                type="number"
+                step="1"
+                min="0"
+                className={fieldClass}
+                placeholder="300"
+              />
             </label>
             <label className="block">
               <Label>Temp (°C)</Label>
-              <input name="tempC" type="number" step="1" min="0" max="100" className={fieldClass} placeholder="94" />
+              <input
+                name="tempC"
+                type="number"
+                step="1"
+                min="0"
+                max="100"
+                className={fieldClass}
+                placeholder="94"
+              />
             </label>
             <label className="block">
               <Label>Time</Label>
@@ -202,6 +254,60 @@ function SubmitPage() {
           />
         </label>
 
+        <fieldset className="rounded-xl border border-border p-5">
+          <legend className="px-2 font-mono text-[10px] uppercase tracking-[0.16em] text-clay">
+            Photo (optional)
+          </legend>
+          <p className="text-sm text-muted-foreground">
+            Add a link to your own photo of the brew. Leave it blank and we&rsquo;ll draw a method
+            illustration for you instead.
+          </p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <label className="block">
+              <Label>Image URL (https)</Label>
+              <input
+                name="imageUrl"
+                type="url"
+                inputMode="url"
+                maxLength={500}
+                value={imageUrl}
+                onChange={(e) => {
+                  setImageUrl(e.target.value);
+                  setImageError(false);
+                }}
+                className={fieldClass}
+                placeholder="https://…/my-pour-over.jpg"
+              />
+            </label>
+            <label className="block">
+              <Label>Image description</Label>
+              <input
+                name="imageAlt"
+                maxLength={140}
+                className={fieldClass}
+                placeholder="Chemex mid-pour on a wooden counter"
+              />
+            </label>
+          </div>
+          <div className="mt-4 flex h-40 items-center justify-center overflow-hidden rounded-lg border border-border bg-secondary">
+            {imageUrl.trim().startsWith("https://") && !imageError ? (
+              <img
+                src={imageUrl.trim()}
+                alt="Preview of your submitted brew photo"
+                onError={() => setImageError(true)}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <BrewArt method={previewMethod} seed={previewMethod} className="h-28 w-28" />
+            )}
+          </div>
+          {imageError && (
+            <p className="mt-2 text-sm text-destructive">
+              That image link didn&rsquo;t load — check the URL or leave it blank.
+            </p>
+          )}
+        </fieldset>
+
         <div className="flex flex-wrap items-center gap-4">
           <button
             type="submit"
@@ -215,9 +321,7 @@ function SubmitPage() {
               Received — pending review.
             </p>
           )}
-          {status === "error" && (
-            <p className="text-sm text-destructive">{message}</p>
-          )}
+          {status === "error" && <p className="text-sm text-destructive">{message}</p>}
         </div>
       </form>
     </Page>

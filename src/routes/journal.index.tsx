@@ -45,6 +45,7 @@ function JournalIndex() {
           <button
             key={c}
             onClick={() => setCat(cat === c ? null : c)}
+            aria-pressed={cat === c}
             className={`rounded-full border px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] transition-colors ${
               cat === c
                 ? "border-primary bg-primary text-primary-foreground"
@@ -57,7 +58,7 @@ function JournalIndex() {
       </div>
 
       <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {list.map((a) => (
+        {list.map((a, index) => (
           <Link
             key={a.slug}
             to="/journal/$slug"
@@ -69,7 +70,11 @@ function JournalIndex() {
                 src={a.image}
                 alt={a.imageAlt}
                 loading="lazy"
-                className="aspect-[4/3] w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                width={1200}
+                height={900}
+                className={`w-full object-cover transition-transform duration-700 group-hover:scale-[1.03] ${
+                  index % 3 === 1 ? "aspect-[5/4]" : "aspect-[4/3]"
+                }`}
               />
             </div>
             <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-clay">{a.category}</p>

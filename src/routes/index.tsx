@@ -86,7 +86,9 @@ function Index() {
         <img
           src={heroImg}
           alt="Gooseneck kettle pouring water over a ceramic dripper on a warm wooden counter"
-          className="h-[380px] w-full rounded-2xl object-cover"
+          width={1200}
+          height={900}
+          className="h-[320px] w-full rounded-2xl object-cover shadow-sm sm:h-[380px]"
           loading="eager"
         />
       </section>
@@ -155,7 +157,9 @@ function Index() {
                 src={a.image}
                 alt={a.imageAlt}
                 loading="lazy"
-                className="h-40 w-full object-cover"
+                width={1200}
+                height={900}
+                className="h-44 w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
               />
               <div className="p-5">
                 <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-clay">

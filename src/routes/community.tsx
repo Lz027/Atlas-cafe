@@ -47,18 +47,9 @@ function SubmissionCard({ s }: { s: Submission }) {
 
   return (
     <article className="overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-clay/50">
-      {s.imageUrl ? (
-        <img
-          src={s.imageUrl}
-          alt={s.imageAlt || `${s.title} — brew photo by ${s.authorName}`}
-          loading="lazy"
-          className="h-48 w-full border-b border-border object-cover"
-        />
-      ) : (
-        <div className="flex h-48 items-center justify-center border-b border-border bg-secondary">
-          <BrewArt method={s.method} seed={s.id} className="h-32 w-32" />
-        </div>
-      )}
+      <div className="flex h-48 items-center justify-center border-b border-border bg-secondary">
+        <BrewArt method={s.method} seed={s.id} className="h-32 w-32" />
+      </div>
       <div className="p-6">
         <div className="flex flex-wrap items-center gap-2">
           <span className="rounded-full border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.16em] text-clay">

@@ -12,14 +12,6 @@ const submissionSchema = z.object({
   timeLabel: z.string().trim().max(20).optional(),
   flavors: z.array(z.string().trim().max(30)).max(8).default([]),
   notes: z.string().trim().max(1000).optional(),
-  imageUrl: z
-    .string()
-    .trim()
-    .url("Image link must be a full URL starting with https://")
-    .max(500)
-    .refine((u) => u.startsWith("https://"), "Image link must start with https://")
-    .optional(),
-  imageAlt: z.string().trim().max(140).optional(),
 });
 
 export type Submission = z.infer<typeof submissionSchema> & {

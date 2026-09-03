@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Page, Eyebrow } from "@/components/site-chrome";
 import { METHODS, FLAVOR_NOTES } from "@/lib/data";
 import { submitBrew } from "@/lib/submissions.functions";
-import { BrewArt } from "@/components/brew-art";
 
 export const Route = createFileRoute("/submit")({
   head: () => ({

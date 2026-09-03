@@ -166,7 +166,7 @@ function Motif({ variant, h }: { variant: number; h: number }) {
           <circle cx="60" cy="60" r="50" strokeDasharray="3 7" />
           <circle cx="60" cy="60" r="38" />
           <circle cx="60" cy="60" r="26" strokeDasharray="1 5" />
-          <circle cx={RING[start][0]} cy={RING[start][1]} r="2" fill="currentColor" />
+          <circle cx={RING[start]![0]} cy={RING[start]![1]} r="2" fill="currentColor" />
         </g>
       );
     case 2:
@@ -188,7 +188,7 @@ function Motif({ variant, h }: { variant: number; h: number }) {
         <g {...common}>
           <circle cx="60" cy="60" r="46" strokeDasharray="3 7" transform={`rotate(${(h % 24) - 12} 60 60)`} />
           {Array.from({ length: 3 + (h % 4) }).map((_, i) => {
-            const [x, y] = RING[(start + Math.floor((i * 8) / (3 + (h % 4)))) % 8];
+            const [x, y] = RING[(start + Math.floor((i * 8) / (3 + (h % 4)))) % 8]!;
             return <circle key={i} cx={x} cy={y} r={i % 2 === 0 ? 2.4 : 1.6} fill="currentColor" />;
           })}
         </g>
@@ -209,7 +209,7 @@ function Motif({ variant, h }: { variant: number; h: number }) {
         <g {...common}>
           <circle cx="60" cy="60" r="44" strokeDasharray="2 7" />
           {[0, 2, 4, 6].map((k) => {
-            const [x, y] = RING[(start + k) % 8];
+            const [x, y] = RING[(start + k) % 8]!;
             return <circle key={k} cx={x} cy={y} r="2" fill="currentColor" />;
           })}
           <path d="M60 10v-0.01M60 110v-0.01M10 60h-0.01M110 60h-0.01" strokeWidth="2" />

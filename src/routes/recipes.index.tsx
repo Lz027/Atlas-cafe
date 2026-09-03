@@ -1,5 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
+import { listApprovedSubmissions } from "@/lib/submissions.functions";
 import { Page, Eyebrow } from "@/components/site-chrome";
 import { BrewArt } from "@/components/brew-art";
 import { recipes, METHODS, STRENGTHS, FLAVOR_NOTES, type Method, type Strength } from "@/lib/data";
@@ -55,6 +58,22 @@ function RecipesPage() {
   const [strength, setStrength] = useState<Strength | null>(null);
   const [flavor, setFlavor] = useState<string | null>(null);
 
+  const fetchSubmissions = useServerFn(listApprovedSubmissions);
+  const { data: submissions } = useQuery({
+    queryKey: ["submissions"],
+    queryFn: () => fetchSubmissions(),
+  });
+  const communityRecipes = useMemo(
+    () =>
+      (submissions ?? []).filter(
+        (s) =>
+          s.kind === "recipe" &&
+          (!method || s.method === method) &&
+          (!flavor || s.flavors.includes(flavor)),
+      ),
+    [submissions, method, flavor],
+  );
+
   const filtered = useMemo(
     () =>
       recipes.filter(
@@ -80,7 +99,11 @@ function RecipesPage() {
             <Eyebrow>Method</Eyebrow>
             <div className="mt-3 flex flex-wrap gap-2">
               {METHODS.map((m) => (
-                <Chip key={m} active={method === m} onClick={() => setMethod(method === m ? null : m)}>
+                <Chip
+                  key={m}
+                  active={method === m}
+                  onClick={() => setMethod(method === m ? null : m)}
+                >
                   {m}
                 </Chip>
               ))}
@@ -90,7 +113,11 @@ function RecipesPage() {
             <Eyebrow>Strength</Eyebrow>
             <div className="mt-3 flex flex-wrap gap-2">
               {STRENGTHS.map((s) => (
-                <Chip key={s} active={strength === s} onClick={() => setStrength(strength === s ? null : s)}>
+                <Chip
+                  key={s}
+                  active={strength === s}
+                  onClick={() => setStrength(strength === s ? null : s)}
+                >
                   {s}
                 </Chip>
               ))}
@@ -100,7 +127,11 @@ function RecipesPage() {
             <Eyebrow>Flavor</Eyebrow>
             <div className="mt-3 flex flex-wrap gap-2">
               {FLAVOR_NOTES.map((f) => (
-                <Chip key={f} active={flavor === f} onClick={() => setFlavor(flavor === f ? null : f)}>
+                <Chip
+                  key={f}
+                  active={flavor === f}
+                  onClick={() => setFlavor(flavor === f ? null : f)}
+                >
                   {f}
                 </Chip>
               ))}
@@ -121,9 +152,15 @@ function RecipesPage() {
                 className="group rounded-xl border border-border bg-card p-5 transition-colors hover:border-clay"
               >
                 <div className="mb-4 flex h-28 items-center justify-center rounded-lg bg-secondary">
-                  <BrewArt method={r.method} seed={r.slug} className="h-24 w-24 transition-transform duration-500 group-hover:scale-105" />
+                  <BrewArt
+                    method={r.method}
+                    seed={r.slug}
+                    className="h-24 w-24 transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
-                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-clay">{r.method}</p>
+                <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-clay">
+                  {r.method}
+                </p>
                 <h2 className="mt-2 font-serif text-xl font-semibold leading-snug">{r.name}</h2>
                 <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">{r.description}</p>
                 <dl className="mt-4 grid grid-cols-3 gap-2 border-t border-border pt-3 font-mono text-[11px] text-muted-foreground">
@@ -143,6 +180,51 @@ function RecipesPage() {
               </Link>
             ))}
           </div>
+          {communityRecipes.length > 0 && (
+            <section className="mt-14">
+              <Eyebrow>From the community</Eyebrow>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Reader-submitted recipes, published after review.
+              </p>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                {communityRecipes.map((s) => (
+                  <Link
+                    key={s.id}
+                    to="/community"
+                    className="group rounded-xl border border-dashed border-border bg-card p-5 transition-colors hover:border-clay"
+                  >
+                    <div className="mb-4 flex h-28 items-center justify-center rounded-lg bg-secondary">
+                      <BrewArt method={s.method} seed={s.id} className="h-24 w-24" />
+                    </div>
+                    <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-clay">
+                      {s.method}
+                    </p>
+                    <h3 className="mt-2 font-serif text-xl font-semibold leading-snug">
+                      {s.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-muted-foreground">by {s.authorName}</p>
+                    {(s.dose || s.water || s.timeLabel) && (
+                      <dl className="mt-4 grid grid-cols-3 gap-2 border-t border-border pt-3 font-mono text-[11px] text-muted-foreground">
+                        <div>
+                          <dt className="uppercase tracking-[0.1em]">Dose</dt>
+                          <dd className="text-foreground">{s.dose ? `${s.dose}g` : "—"}</dd>
+                        </div>
+                        <div>
+                          <dt className="uppercase tracking-[0.1em]">Water</dt>
+                          <dd className="text-foreground">{s.water ? `${s.water}g` : "—"}</dd>
+                        </div>
+                        <div>
+                          <dt className="uppercase tracking-[0.1em]">Time</dt>
+                          <dd className="text-foreground">{s.timeLabel ?? "—"}</dd>
+                        </div>
+                      </dl>
+                    )}
+                  </Link>
+                ))}
+              </div>
+            </section>
+          )}
+
           {filtered.length === 0 && (
             <p className="mt-10 text-sm text-muted-foreground">
               No recipes match those filters. Try clearing one.

@@ -1,4 +1,10 @@
-import { articles, getArticle, type Article, type ArticleCategory, type Citation } from "@/data/articles";
+import {
+  articles,
+  getArticle,
+  type Article,
+  type ArticleCategory,
+  type Citation,
+} from "@/data/articles";
 import {
   recipes,
   getRecipe,

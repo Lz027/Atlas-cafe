@@ -120,10 +120,7 @@ function Index() {
           <div className="mt-6 grid grid-cols-2 gap-5 border-t border-border pt-5 sm:grid-cols-5">
             <Spec label="Dose" value={`${featured.dose} g`} />
             <Spec label="Water" value={`${featured.water} g`} />
-            <Spec
-              label="Temp"
-              value={featured.tempC == null ? "—" : `${featured.tempC} °C`}
-            />
+            <Spec label="Temp" value={featured.tempC == null ? "—" : `${featured.tempC} °C`} />
             <Spec label="Time" value={featured.timeLabel} />
             <Spec label="Ratio" value={featured.ratio} />
           </div>

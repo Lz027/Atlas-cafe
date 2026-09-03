@@ -11,7 +11,12 @@ export const Route = createFileRoute("/recipes/$slug")({
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Recipe unavailable — Atlas Café" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [
+          { title: "Recipe unavailable — Atlas Café" },
+          { name: "robots", content: "noindex" },
+        ],
+      };
     }
     const r = loaderData.recipe;
     const desc = `${r.method} · ${r.dose}g coffee, ${r.water}ml water, ${r.ratio}. ${r.description}`;
@@ -35,7 +40,10 @@ export const Route = createFileRoute("/recipes/$slug")({
             name: r.name,
             recipeCategory: r.method,
             description: r.description,
-            recipeIngredient: [`${r.dose}g ${r.coffeeType} coffee (${r.origin})`, `${r.water}ml water`],
+            recipeIngredient: [
+              `${r.dose}g ${r.coffeeType} coffee (${r.origin})`,
+              `${r.water}ml water`,
+            ],
             recipeInstructions: r.steps.map((s) => ({ "@type": "HowToStep", text: s })),
           }),
         },
@@ -48,7 +56,9 @@ export const Route = createFileRoute("/recipes/$slug")({
 function Spec({ label, value }: { label: string; value: string }) {
   return (
     <div className="border-l border-border pl-3">
-      <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{label}</dt>
+      <dt className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+        {label}
+      </dt>
       <dd className="mt-1 font-serif text-xl">{value}</dd>
     </div>
   );
@@ -69,7 +79,9 @@ function RecipeDetail() {
       <div className="mt-6 grid gap-12 lg:grid-cols-[1.2fr_1fr]">
         <div>
           <Eyebrow>{r.method}</Eyebrow>
-          <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">{r.name}</h1>
+          <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
+            {r.name}
+          </h1>
           <p className="mt-4 max-w-prose text-lg text-muted-foreground">{r.description}</p>
 
           <div className="mt-8 flex flex-wrap gap-2">
@@ -87,7 +99,9 @@ function RecipeDetail() {
           <ol className="mt-5 space-y-5">
             {r.steps.map((s, i) => (
               <li key={i} className="flex gap-4">
-                <span className="font-mono text-sm text-clay">{String(i + 1).padStart(2, "0")}</span>
+                <span className="font-mono text-sm text-clay">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
                 <p className="max-w-prose leading-relaxed">{s}</p>
               </li>
             ))}

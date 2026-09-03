@@ -52,11 +52,13 @@ export function SiteFooter() {
 }
 
 export function Page({ children }: { children: ReactNode }) {
-  return <main className="mx-auto w-full max-w-6xl px-5 py-12 animate-[var(--animate-rise)]">{children}</main>;
+  return (
+    <main className="mx-auto w-full max-w-6xl px-5 py-12 animate-[var(--animate-rise)]">
+      {children}
+    </main>
+  );
 }
 
 export function Eyebrow({ children }: { children: ReactNode }) {
-  return (
-    <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-clay">{children}</p>
-  );
+  return <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-clay">{children}</p>;
 }

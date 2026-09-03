@@ -37,7 +37,8 @@ function JournalIndex() {
       <Eyebrow>Field notes</Eyebrow>
       <h1 className="mt-3 font-serif text-4xl font-semibold tracking-tight sm:text-5xl">Journal</h1>
       <p className="mt-3 max-w-xl text-muted-foreground">
-        History, brewing science, and the regions behind the cup — with sources at the bottom of every piece.
+        History, brewing science, and the regions behind the cup — with sources at the bottom of
+        every piece.
       </p>
 
       <div className="mt-8 flex flex-wrap gap-2">
@@ -59,12 +60,7 @@ function JournalIndex() {
 
       <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {list.map((a, index) => (
-          <Link
-            key={a.slug}
-            to="/journal/$slug"
-            params={{ slug: a.slug }}
-            className="group block"
-          >
+          <Link key={a.slug} to="/journal/$slug" params={{ slug: a.slug }} className="group block">
             <div className="overflow-hidden rounded-xl border border-border">
               <img
                 src={a.image}
@@ -77,7 +73,9 @@ function JournalIndex() {
                 }`}
               />
             </div>
-            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-clay">{a.category}</p>
+            <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.14em] text-clay">
+              {a.category}
+            </p>
             <h2 className="mt-2 font-serif text-xl font-semibold leading-snug">{a.title}</h2>
             <p className="mt-2 text-sm text-muted-foreground">{a.excerpt}</p>
             <p className="mt-3 font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">

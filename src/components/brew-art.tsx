@@ -179,14 +179,26 @@ function Motif({ variant, h }: { variant: number; h: number }) {
           {[0, 1, 2, 3, 4].map((i) => (
             <line key={`b${i}`} x1={112 - i * 8} y1="8" x2="112" y2={8 + i * 8} />
           ))}
-          <circle cx="60" cy="60" r="46" strokeDasharray="4 8" transform={`rotate(${(h % 24) - 12} 60 60)`} />
+          <circle
+            cx="60"
+            cy="60"
+            r="46"
+            strokeDasharray="4 8"
+            transform={`rotate(${(h % 24) - 12} 60 60)`}
+          />
         </g>
       );
     case 3:
       // Orbiting bean dots
       return (
         <g {...common}>
-          <circle cx="60" cy="60" r="46" strokeDasharray="3 7" transform={`rotate(${(h % 24) - 12} 60 60)`} />
+          <circle
+            cx="60"
+            cy="60"
+            r="46"
+            strokeDasharray="3 7"
+            transform={`rotate(${(h % 24) - 12} 60 60)`}
+          />
           {Array.from({ length: 3 + (h % 4) }).map((_, i) => {
             const [x, y] = RING[(start + Math.floor((i * 8) / (3 + (h % 4)))) % 8]!;
             return <circle key={i} cx={x} cy={y} r={i % 2 === 0 ? 2.4 : 1.6} fill="currentColor" />;
@@ -199,7 +211,13 @@ function Motif({ variant, h }: { variant: number; h: number }) {
         <g {...common}>
           <path d="M40 100c-4-6 4-10 0-16" />
           <path d="M80 100c4-6-4-10 0-16" />
-          <circle cx="60" cy="60" r="50" strokeDasharray="1 9" transform={`rotate(${h % 45} 60 60)`} />
+          <circle
+            cx="60"
+            cy="60"
+            r="50"
+            strokeDasharray="1 9"
+            transform={`rotate(${h % 45} 60 60)`}
+          />
           <line x1="20" y1="106" x2="100" y2="106" strokeDasharray="2 5" />
         </g>
       );

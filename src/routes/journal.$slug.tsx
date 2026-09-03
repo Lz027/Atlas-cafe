@@ -10,7 +10,12 @@ export const Route = createFileRoute("/journal/$slug")({
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Article unavailable — Atlas Café" }, { name: "robots", content: "noindex" }] };
+      return {
+        meta: [
+          { title: "Article unavailable — Atlas Café" },
+          { name: "robots", content: "noindex" },
+        ],
+      };
     }
     const a = loaderData.article;
     return {

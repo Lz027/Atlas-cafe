@@ -48,7 +48,10 @@ export const articles: Article[] = [
     ],
     citations: [
       { label: "The Physics of Filter Coffee", source: "Jonathan Gagné, 2021" },
-      { label: "Coffee Extraction: kinetics and equilibrium", source: "Moroney et al., Chemical Engineering Science, 2015" },
+      {
+        label: "Coffee Extraction: kinetics and equilibrium",
+        source: "Moroney et al., Chemical Engineering Science, 2015",
+      },
       { label: "Water for Coffee", source: "Maxwell Colonna-Dashwood & Christopher Hendon, 2015" },
     ],
   },
@@ -69,7 +72,10 @@ export const articles: Article[] = [
     ],
     citations: [
       { label: "Ethiopian Coffee Buying Guide", source: "Boot Coffee Campus" },
-      { label: "The State of Ethiopia's Coffee Sector", source: "USDA Foreign Agricultural Service, 2023" },
+      {
+        label: "The State of Ethiopia's Coffee Sector",
+        source: "USDA Foreign Agricultural Service, 2023",
+      },
     ],
   },
   {
@@ -88,7 +94,10 @@ export const articles: Article[] = [
       "Strength and extraction are different axes. Strength is concentration — how much dissolved material per gram of water. You can have a strong, under-extracted cup and a weak, perfectly extracted one. Taste before you adjust.",
     ],
     citations: [
-      { label: "E.E. Lockhart, 'The Soluble Solids in Beverage Coffee'", source: "Coffee Brewing Center, 1957" },
+      {
+        label: "E.E. Lockhart, 'The Soluble Solids in Beverage Coffee'",
+        source: "Coffee Brewing Center, 1957",
+      },
       { label: "The Coffee Brewing Control Chart", source: "Specialty Coffee Association" },
       { label: "The Physics of Filter Coffee", source: "Jonathan Gagné, 2021" },
     ],
@@ -130,8 +139,14 @@ export const articles: Article[] = [
       "When a brew stalls, don't just blame the pour. Look at the grinder first.",
     ],
     citations: [
-      { label: "The Effect of Bean Origin and Temperature on Grinding Roasted Coffee", source: "Uman et al., Scientific Reports, 2016" },
-      { label: "Espresso Coffee: The Science of Quality", source: "Andrea Illy & Rinantonio Viani (eds.), 2005" },
+      {
+        label: "The Effect of Bean Origin and Temperature on Grinding Roasted Coffee",
+        source: "Uman et al., Scientific Reports, 2016",
+      },
+      {
+        label: "Espresso Coffee: The Science of Quality",
+        source: "Andrea Illy & Rinantonio Viani (eds.), 2005",
+      },
     ],
   },
   {

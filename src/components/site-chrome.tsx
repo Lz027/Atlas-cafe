@@ -11,16 +11,16 @@ const NAV = [
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5">
+      <div className="mx-auto flex max-w-6xl flex-col items-start gap-2 px-5 py-3 sm:h-16 sm:flex-row sm:items-center sm:justify-between sm:gap-0 sm:py-0">
         <Link to="/" className="font-serif text-lg font-semibold tracking-tight">
           Atlas<span className="text-clay">&nbsp;Café</span>
         </Link>
-        <nav className="flex items-center gap-1 sm:gap-4">
+        <nav className="flex w-full items-center gap-1 overflow-x-auto pb-1 sm:w-auto sm:gap-4 sm:overflow-visible sm:pb-0">
           {NAV.map((n) => (
             <Link
               key={n.to}
               to={n.to}
-              className="rounded px-2 py-1 font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:text-foreground"
+              className="shrink-0 rounded px-2 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground transition-colors hover:text-foreground sm:text-[11px] sm:tracking-[0.14em]"
               activeProps={{ className: "text-foreground" }}
             >
               {n.label}
@@ -28,7 +28,7 @@ export function SiteHeader() {
           ))}
           <Link
             to="/submit"
-            className="ml-1 rounded-full bg-primary px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-primary-foreground transition-opacity hover:opacity-90"
+            className="ml-1 shrink-0 rounded-full bg-primary px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.12em] text-primary-foreground transition-opacity hover:opacity-90 sm:text-[11px] sm:tracking-[0.14em]"
           >
             Submit
           </Link>

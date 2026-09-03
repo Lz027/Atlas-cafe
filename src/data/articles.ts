@@ -2,6 +2,12 @@ import kettleImg from "@/assets/journal-kettle.jpg";
 import beansImg from "@/assets/journal-beans.jpg";
 import farmImg from "@/assets/journal-farm.jpg";
 import cuppingImg from "@/assets/journal-cupping.jpg";
+import finalPourImg from "@/assets/journal-final-pour.jpg";
+import grinderImg from "@/assets/journal-grinder.jpg";
+import bostonImg from "@/assets/journal-boston.jpg";
+import sumatraImg from "@/assets/journal-sumatra.jpg";
+import londonImg from "@/assets/journal-london.jpg";
+import colombiaImg from "@/assets/journal-colombia.jpg";
 
 export type ArticleCategory = "History" | "Brewing Science" | "Regions & Farms";
 
@@ -31,8 +37,8 @@ export const articles: Article[] = [
     excerpt: "Grind, dose, and the quiet moments between pours.",
     dateLabel: "Season 04 · Vol. 12",
     readTime: "6 min",
-    image: kettleImg,
-    imageAlt: "Gooseneck kettle pouring into a ceramic V60 dripper",
+    image: finalPourImg,
+    imageAlt: "A measured final pour into a glass coffee dripper on a digital scale",
     paragraphs: [
       "Every pour-over recipe ends with a final pour that feels almost ceremonial. It is easy to treat those last 40ml as a formality — the cup is mostly brewed, the scale is nearly at target. But the end of the brew is where extraction balance is decided.",
       "Extraction is not linear. The first fraction of water dissolves the most soluble compounds: bright acids and fruit-forward aromatics. The middle fraction carries sweetness. The final fraction pulls the heavier, slower-dissolving compounds — some of which add structure and bitterness.",
@@ -115,8 +121,8 @@ export const articles: Article[] = [
     excerpt: "Surface area, fines, and why your grinder is the most important tool you own.",
     dateLabel: "Season 03 · Vol. 08",
     readTime: "7 min",
-    image: kettleImg,
-    imageAlt: "Kettle pouring over fresh coffee grounds",
+    image: grinderImg,
+    imageAlt: "Hand-crank burr grinder and coffee grounds on a green workbench",
     paragraphs: [
       "Grinding spends a budget: the smaller the particle, the more surface area you expose, and the faster water can dissolve what's inside. Extraction speed is the currency.",
       "Every grinder produces a distribution, not a single size. Fines — the dust at the small end — extract almost instantly and can clog a filter bed, slowing drawdown and adding bitterness.",
@@ -135,8 +141,8 @@ export const articles: Article[] = [
     excerpt: "How a tax protest quietly changed a continent's morning drink.",
     dateLabel: "Season 03 · Vol. 07",
     readTime: "6 min",
-    image: beansImg,
-    imageAlt: "Raw green coffee beans in a wooden crate",
+    image: bostonImg,
+    imageAlt: "Coffee, an old ledger, and a map arranged on a worn wooden table",
     paragraphs: [
       "Colonial America drank tea, like Britain did. Coffee existed, but it was the drink of taverns and merchants, not kitchens.",
       "After 1773, tea became politically suspect. Drinking coffee turned into a small patriotic act, and imports climbed steadily through the early republic.",
@@ -155,8 +161,8 @@ export const articles: Article[] = [
     excerpt: "Giling basah — the process behind coffee's most divisive cup.",
     dateLabel: "Season 02 · Vol. 06",
     readTime: "7 min",
-    image: farmImg,
-    imageAlt: "Coffee drying beds on an Indonesian farm",
+    image: sumatraImg,
+    imageAlt: "Workers sorting wet-hulled green coffee on woven trays in Sumatra",
     paragraphs: [
       "Most of the world dries coffee in its parchment before hulling. Sumatra does the opposite: wet-hulling, or giling basah, removes the parchment while the bean is still swollen with moisture.",
       "The practice is a response to the climate — humid air that never lets coffee dry on the tree or the patio. Hulling early lets the bean finish drying exposed.",
@@ -175,8 +181,8 @@ export const articles: Article[] = [
     excerpt: "Penny universities, stock exchanges, and the birth of the café.",
     dateLabel: "Season 02 · Vol. 05",
     readTime: "8 min",
-    image: cuppingImg,
-    imageAlt: "A long wooden table set for coffee tasting",
+    image: londonImg,
+    imageAlt: "A candlelit communal table in a historic London coffeehouse",
     paragraphs: [
       "London's first coffeehouse opened in 1652. For a penny admission, anyone could sit, drink, and argue — which is why contemporaries called them 'penny universities'.",
       "Each trade had its house. Merchants met at Jonathan's; shipowners and underwriters at Edward Lloyd's, which became Lloyd's of London. The London Stock Exchange traces its lineage to a coffeehouse too.",
@@ -195,8 +201,8 @@ export const articles: Article[] = [
     excerpt: "Why Huila, Nariño, and Cauca taste nothing alike.",
     dateLabel: "Season 02 · Vol. 04",
     readTime: "7 min",
-    image: farmImg,
-    imageAlt: "Steep green coffee hillsides in Colombia",
+    image: colombiaImg,
+    imageAlt: "Coffee cherries overlooking terraced green hills in the Colombian Andes",
     paragraphs: [
       "Colombia's coffee grows on the spine of the Andes, where altitude, aspect, and two harvest seasons create a country of microclimates.",
       "Huila, in the south, produces washed coffees with caramel sweetness and red fruit — the profile many drinkers now think of as 'classic specialty'. Nariño, higher and colder, pushes toward citrus and florals.",

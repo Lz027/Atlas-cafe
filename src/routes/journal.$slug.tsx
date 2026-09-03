@@ -65,7 +65,9 @@ function ArticlePage() {
         <img
           src={a.image}
           alt={a.imageAlt}
-          className="mt-8 aspect-[16/9] w-full rounded-xl border border-border object-cover"
+          width={1200}
+          height={900}
+          className="mt-8 aspect-[16/9] w-full rounded-xl border border-border object-cover shadow-sm"
         />
 
         <div className="mt-10 space-y-6">
